@@ -1,0 +1,12 @@
+{
+  "RepoName": "WinCC OA Panel Topology Framework",
+  "Keywords": ["ui", "ctrl", "panel-topology"],
+  "Subproject": "PT_SIE_FRAMEWORK",
+  "Version": "1.0.0",
+  "Description": "This is a test",
+  "OaVersion": "^3.20.0",
+  "Managers": 
+  [],
+  "Dplists": [],
+  "UpdateScripts": []
+}
