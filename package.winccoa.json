@@ -3,7 +3,7 @@
   "Keywords": ["ui", "ctrl", "panel-topology"],
   "Subproject": "PT_SIE_FRAMEWORK",
   "Version": "1.0.0",
-  "Description": "This is a test",
+  "Description": "Gives your SCADA project a structured face. This will modernize its look and feel, taking the visual design and user experience to the next level through smart navigation, faceplate mechanisms, Alarm monitoring, and intuitive screen layouts.",
   "OaVersion": "^3.20.0",
   "Managers": 
   [],
