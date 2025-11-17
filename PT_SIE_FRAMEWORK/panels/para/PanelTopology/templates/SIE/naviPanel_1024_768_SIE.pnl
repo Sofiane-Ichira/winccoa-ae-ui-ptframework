@@ -2,8 +2,8 @@
 <panel version="14">
  <properties>
   <prop name="Name">
-   <prop name="de_AT.utf8">navi</prop>
    <prop name="en_US.utf8"></prop>
+   <prop name="de_AT.utf8">navi</prop>
    <prop name="es_ES.utf8"></prop>
    <prop name="fr_FR.utf8"></prop>
    <prop name="tr_TR.utf8"></prop>
@@ -51,32 +51,32 @@ void initButtons()
 
   bool bFreeNodeFound =  FALSE;
 
-
-  for (int i = dynlen(g_PanelTopologyCache[strServerName + &quot;_PanelTopology.nodeName:_online.._value&quot;]); i &gt; 0; i--) //1 because ignore start/root node
+//17/11/2025 removed the online value from the &quot;_PanelTopology.**
+  for (int i = dynlen(g_PanelTopologyCache[strServerName + &quot;_PanelTopology.nodeName&quot;]); i &gt; 0; i--) //1 because ignore start/root node
   {
     // DebugTN(&quot;i&quot;, i,&quot;g_PanelTopologyCache[strServerName + \&quot;_PanelTopology.parentNumber:_online.._value\&quot;][i]&quot;,
     //     g_PanelTopologyCache[strServerName + &quot;_PanelTopology.parentNumber:_online.._value&quot;][i] );
-    if (g_PanelTopologyCache[strServerName + &quot;_PanelTopology.nodeName:_online.._value&quot;][i] == &quot;. . .&quot;)
+    if (g_PanelTopologyCache[strServerName + &quot;_PanelTopology.nodeName&quot;][i] == &quot;. . .&quot;)
     {
       bFreeNodeFound = TRUE;
       continue;
     }
 
 
-    if (g_PanelTopologyCache[strServerName + &quot;_PanelTopology.parentNumber:_online.._value&quot;][i] &gt; 1) //only start node and first level
+    if (g_PanelTopologyCache[strServerName + &quot;_PanelTopology.parentNumber&quot;][i] &gt; 1) //only start node and first level
        continue;
 
 
 
     int iPos = i; //pt pos
 
-    if (g_PanelTopologyCache[strServerName + &quot;_PanelTopology.fileName:_online.._value&quot;][i] == &quot;main.pnl&quot; &amp;&amp; i != 1)
+    if (g_PanelTopologyCache[strServerName + &quot;_PanelTopology.fileName&quot;][i] == &quot;main.pnl&quot; &amp;&amp; i != 1)
     {
       iPos *= -1;
     }
 
     //Ahmed, come here to implement the new logic
-PT_SIEM_addNaviButton(i, g_PanelTopologyCache[strServerName + &quot;_PanelTopology.parentNumber:_online.._value&quot;][i]/*, daCollection[iMyScreenNumber]*/);
+PT_SIEM_addNaviButton(i, g_PanelTopologyCache[strServerName + &quot;_PanelTopology.parentNumber&quot;][i]/*, daCollection[iMyScreenNumber]*/);
 
 
      /* addSymbol(myModuleName(), myPanelName(), &quot;objects/side_menu_buttons/generic.pnl&quot;, &quot;navi_btn_&quot; + i, 1, &quot;LAYOUT_GROUP1&quot;,
@@ -191,8 +191,8 @@ Pressed = true;
     <prop name="BackColor">{255,255,255}</prop>
     <prop name="TabOrder">49</prop>
     <prop name="ToolTipText">
-     <prop name="de_AT.utf8"></prop>
      <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
      <prop name="es_ES.utf8"></prop>
      <prop name="fr_FR.utf8"></prop>
      <prop name="tr_TR.utf8"></prop>
@@ -255,8 +255,8 @@ Pressed = true;
     <prop name="BackColor">{255,255,255}</prop>
     <prop name="TabOrder">27</prop>
     <prop name="ToolTipText">
-     <prop name="de_AT.utf8"></prop>
      <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
      <prop name="es_ES.utf8"></prop>
      <prop name="fr_FR.utf8"></prop>
      <prop name="tr_TR.utf8"></prop>

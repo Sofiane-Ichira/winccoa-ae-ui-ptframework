@@ -307,8 +307,8 @@ class GUIBasePanel
     string systemPrefix = getSystemName();
 
 
-
-    for (int i = 1; i <= dynlen(g_PanelTopologyCache[systemPrefix + "_PanelTopology.fileName:_online.._value"]); i++)
+//17/11/2025 removed the online value from the "_PanelTopology.**
+    for (int i = 1; i <= dynlen(g_PanelTopologyCache[systemPrefix + "_PanelTopology.fileName"]); i++)
     {
       if (g_PanelTopologyCache[systemPrefix + "_PanelTopology.fileName:_online.._value"][i] == _value)
       {

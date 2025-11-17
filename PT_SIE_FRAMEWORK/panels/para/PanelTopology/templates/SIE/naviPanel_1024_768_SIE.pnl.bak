@@ -2,8 +2,8 @@
 <panel version="14">
  <properties>
   <prop name="Name">
-   <prop name="en_US.utf8"></prop>
    <prop name="de_AT.utf8">navi</prop>
+   <prop name="en_US.utf8"></prop>
    <prop name="es_ES.utf8"></prop>
    <prop name="fr_FR.utf8"></prop>
    <prop name="tr_TR.utf8"></prop>
@@ -15,6 +15,7 @@
   <prop name="InitAndTermRef">True</prop>
   <prop name="SendClick">False</prop>
   <prop name="RefFileName"></prop>
+  <prop name="LangSwitchMode">1</prop>
   <prop name="DPI">96</prop>
   <prop name="PDPI">108.888</prop>
   <prop name="layoutType">VBox</prop>
@@ -30,7 +31,7 @@
 #uses &quot;PT_SIEM_FRAMEWORK.ctl&quot;
 
 //shared_ptr&lt;GUINaviButtonCollection&gt; ButtonCollection = new GUINaviButtonCollection();
-int iMyScreenNumber = 1; //Ahmed get out the screen number
+int iMyScreenNumber = GetMyScreenNumber(); //Ahmed get out the screen number
 
 public shared_ptr&lt;GUINaviButtonCollection&gt; GetGuiNaviButtonCollection()
 {
@@ -112,23 +113,33 @@ PT_SIEM_addNaviButton(i, g_PanelTopologyCache[strServerName + &quot;_PanelTopolo
 ]]></script>
   <script isEscaped="1" name="Initialize"><![CDATA[main()
 {
-
-
+firstTime=true;
+bool Pressed=false;
   initButtons();
+  delay(2);
+/*while(true)
+  {
+    int width,hight;
+getValue(this,&quot;size&quot;,width,hight);
+ // DebugTN(&quot;this.size&quot;,width,hight);
 
+  if(width&lt;200 &amp;&amp;Pressed)
+  {
+ // DebugTN(&quot; I entered hefffffffffre 1&quot;,&quot;firstTime&quot;,firstTime );
+  collapseMenu(1);
+Pressed = false;
+  }
 
- // delay(2);
- // shape myShapeToDelete = getShape(myModuleName(),myPanelName(),&quot;navi_button_4&quot;);
+    if(width&gt;200 &amp;&amp; ! Pressed)
+  {
+//DebugTN(&quot; I entered hefffffffffre 2&quot;,&quot;firstTime&quot;,firstTime );
+  collapseMenu(0);
+  firstTime=false;
+Pressed = true;
+  }
 
-  //removeSymbol(myModuleName(),myPanelName(),&quot;navi_btn_4&quot;);
-  //delay(2);
+  } delay(0.3);*/
 
-/*DebugTN(&quot;---------------&quot;,myModuleName(),myPanelName());*/
-
- /* delay(2);
-   addSymbol(myModuleName(), myPanelName(), &quot;objects/side_menu_buttons/generic.pnl&quot;, &quot;navi_btn_3&quot;,5, &quot;LAYOUT_GROUP1&quot;,
-              makeDynString(&quot;$nodeId:3&quot;,&quot;$bParentNode:&quot;+false,&quot;$bSubNode:&quot;+true));*/
-  // DebugTN(&quot;LAYOUT_GROUP1&quot;,LAYOUT_GROUP1.shapeType,LAYOUT_GROUP1.name,LAYOUT_GROUP1.panel);
 }
 ]]></script>
  </events>
@@ -180,8 +191,8 @@ PT_SIEM_addNaviButton(i, g_PanelTopologyCache[strServerName + &quot;_PanelTopolo
     <prop name="BackColor">{255,255,255}</prop>
     <prop name="TabOrder">49</prop>
     <prop name="ToolTipText">
-     <prop name="en_US.utf8"></prop>
      <prop name="de_AT.utf8"></prop>
+     <prop name="en_US.utf8"></prop>
      <prop name="es_ES.utf8"></prop>
      <prop name="fr_FR.utf8"></prop>
      <prop name="tr_TR.utf8"></prop>
@@ -244,8 +255,8 @@ PT_SIEM_addNaviButton(i, g_PanelTopologyCache[strServerName + &quot;_PanelTopolo
     <prop name="BackColor">{255,255,255}</prop>
     <prop name="TabOrder">27</prop>
     <prop name="ToolTipText">
-     <prop name="en_US.utf8"></prop>
      <prop name="de_AT.utf8"></prop>
+     <prop name="en_US.utf8"></prop>
      <prop name="es_ES.utf8"></prop>
      <prop name="fr_FR.utf8"></prop>
      <prop name="tr_TR.utf8"></prop>

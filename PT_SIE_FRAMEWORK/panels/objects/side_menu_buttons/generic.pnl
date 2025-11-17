@@ -1,7 +1,7 @@
 V 14
 6
-LANG:10000 0 
 LANG:10001 0 
+LANG:10000 0 
 LANG:10010 0 
 LANG:10009 0 
 LANG:10007 0 
@@ -26,9 +26,9 @@ daCollection[iMyScreenNumber] = /*(shared_ptr<GUINaviButtonCollection>)*/ new GU
   if (iPos < 1)
     iPos *= -1;
   else
-    userButton.SetText(g_PanelTopologyCache[strServerName + \"_PanelTopology.nodeName:_online.._value\"][iPos]);
+    userButton.SetText(g_PanelTopologyCache[strServerName + \"_PanelTopology.nodeName\"][iPos]);
 
-  string sIcon = g_PanelTopologyCache[strServerName + \"_PanelTopology.iconName:_online.._value\"][iPos];
+  string sIcon = g_PanelTopologyCache[strServerName + \"_PanelTopology.iconName\"][iPos];
 
   if ($nodeId == 1 && sIcon == \"\")
     sIcon = \"Siemens_Dark/white/home_icon1.svg\";
@@ -142,7 +142,8 @@ void LoadMyChildPanels()
               makeDynString(\"$nodeId:\" + myChildrensIndecies[i], \"$bParentNode:\" + false, \"$bSubNode:\" + true));
 */
 
-    PT_SIEM_addNaviButton(myChildrensIndecies[i], g_PanelTopologyCache[strServerName + \"_PanelTopology.parentNumber:_online.._value\"][myChildrensIndecies[i]]/*, daCollection[iMyScreenNumber]*/);
+    //17/11/2025 removed the online value from the \"_PanelTopology.**
+    PT_SIEM_addNaviButton(myChildrensIndecies[i], g_PanelTopologyCache[strServerName + \"_PanelTopology.parentNumber\"][myChildrensIndecies[i]]/*, daCollection[iMyScreenNumber]*/);
 
 
   /*shape tmp = getShape(myModuleName(),panelName, \"navi_btn_\" + myChildrensIndecies[i]);
@@ -198,8 +199,8 @@ E E "main(bool enter)
 
 0
 6
-LANG:10000 0 
 LANG:10001 0 
+LANG:10000 0 
 LANG:10010 0 
 LANG:10009 0 
 LANG:10007 0 

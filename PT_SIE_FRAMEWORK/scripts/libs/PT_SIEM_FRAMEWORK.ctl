@@ -175,6 +175,7 @@ dyn_int GetChildIndecies(string parentId)
   dyn_uint ParentNumbers;
   dyn_int childIds;
   dyn_int childINdeciesInLayout;
+
   dpGet(strServerName + "_PanelTopology.parentNumber", ParentNumbers);
 
   for (int i = 1; i <= dynlen(ParentNumbers); i++)

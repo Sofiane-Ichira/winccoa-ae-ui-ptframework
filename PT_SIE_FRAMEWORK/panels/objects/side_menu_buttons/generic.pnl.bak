@@ -6,7 +6,7 @@ LANG:10010 0
 LANG:10009 0 
 LANG:10007 0 
 LANG:10004 0 
-PANEL,-1 -1 266 50 N "color-1" 3
+PANEL,-1 -1 268 51 N "color-1" 3
 "$bParentNode"
 "$bSubNode"
 "$nodeId"
@@ -64,12 +64,39 @@ public shared_ptr<GUINaviButtonCollection> GetGuiNaviButtonCollection()
   return daCollection[iMyScreenNumber];
 }
 
+dyn_int GetMyChildrenAndGrands(int currentParentIndex)
+{
+  //  DebugTN(\"currentParentIndex\", currentParentIndex);
+    string strServerName = getSystemName();
+    dyn_uint ParentNumbers;
+    dyn_int childIndices;
 
+    dpGet(strServerName + \"_PanelTopology.parentNumber\", ParentNumbers);
+
+    for (int i = 1; i <= dynlen(ParentNumbers); i++)
+    {
+
+        if (ParentNumbers[i] == currentParentIndex)
+        {
+            childIndices.append(i);
+
+        //recursive loop
+            dyn_int grandChildren = GetMyChildrenAndGrands(i);
+            for (int j = 1; j <= dynlen(grandChildren); j++)
+            {
+                childIndices.append(grandChildren[j]);
+            }
+        }
+    }
+
+ // DebugTN(\"childIndices\", childIndices);
+    return childIndices;
+}
 
 
 dyn_int GetMyChildren(int currentParentIndex)
 {
-  DebugTN(\"currentParentIndex\", currentParentIndex);
+ // DebugTN(\"currentParentIndex\", currentParentIndex);
   string strServerName = getSystemName();
   dyn_uint ParentNumbers;
   dyn_int childIndecies;
@@ -77,7 +104,7 @@ dyn_int GetMyChildren(int currentParentIndex)
 
   for (int i = 1; i <= dynlen(ParentNumbers); i++)
   {
-    DebugTN(\"i=\", i);
+  //  DebugTN(\"i=\", i);
 
     if (ParentNumbers[i]==currentParentIndex)
     {
@@ -90,6 +117,7 @@ dyn_int GetMyChildren(int currentParentIndex)
   }
 
 //\"System1:_PanelTopology.parentNumber\"
+ // DebugTN(\"childIndecies\",childIndecies);
   return childIndecies;
 
 }
@@ -102,9 +130,9 @@ void LoadMyChildPanels()
   string panelName = rootPanel(moduleName);//\"Navi\";/*\"para/PanelTopology/templates/SIE/naviPanel_1024_768_SIE.pnl\";*/
   int parentID = (int)$nodeId;
   dyn_int myChildrensIndecies = GetMyChildren(parentID);
-  DebugTN(\"myChildrensIndecies\", myChildrensIndecies);
+  //DebugTN(\"myChildrensIndecies\", myChildrensIndecies);
 
-  for (int i = 1; i <=dynlen(myChildrensIndecies); i--) //1 because ignore start/root node
+  for (int i =dynlen(myChildrensIndecies); i>=1 ; i--) //1 because ignore start/root node
   {
    // DebugTN(\"myChildrensIndecies[i]\", myChildrensIndecies[i]);
    //// DebugTN(\"currentParentPosition\",parentID);
@@ -114,7 +142,8 @@ void LoadMyChildPanels()
               makeDynString(\"$nodeId:\" + myChildrensIndecies[i], \"$bParentNode:\" + false, \"$bSubNode:\" + true));
 */
 
-    PT_SIEM_addNaviButton(myChildrensIndecies[i], g_PanelTopologyCache[strServerName + \"_PanelTopology.parentNumber:_online.._value\"][myChildrensIndecies[i]]/*, daCollection[iMyScreenNumber]*/);
+    //17/11/2025 removed the online value from the \"_PanelTopology.**
+    PT_SIEM_addNaviButton(myChildrensIndecies[i], g_PanelTopologyCache[strServerName + \"_PanelTopology.parentNumber\"][myChildrensIndecies[i]]/*, daCollection[iMyScreenNumber]*/);
 
 
   /*shape tmp = getShape(myModuleName(),panelName, \"navi_btn_\" + myChildrensIndecies[i]);
@@ -134,26 +163,27 @@ void RemoveMyChildPanels()
   string moduleName = myModuleName(); //\"naviModule_1\"; /*\"_QuickTest_\";*/
   string panelName = rootPanel(moduleName);//\"Navi\";/*\"para/PanelTopology/templates/SIE/naviPanel_1024_768_SIE.pnl\";*/
   int parentID = (int)$nodeId;
-  dyn_int myChildrensIndecies = GetMyChildren(parentID);
-
-PT_SIEM_removeNaviButton(parentID/*, daCollection[iMyScreenNumber]*/);
+  dyn_int myChildrensIndecies = GetMyChildrenAndGrands(parentID);
+//DebugTN(\"myChildrensIndecies\",myChildrensIndecies);
+PT_SIEM_removeNaviButton(parentID,myChildrensIndecies);/*, daCollection[iMyScreenNumber];*/
 
 
 }
 " 0
- 4
+ 5
 "CBRef" "1"
 "EClose" E
+"LangSwitchMode" "1"
 "dpi" "96"
 "pdpi" "108.888"
-2 1 0 0 0 0 1 0
+1 1 0 0 0 0 1 0
 ""
 DISPLAY_LAYER, 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
 LAYER, 0 
 0
-1 21 0 "" 0
+1 30 0 "" 0
 0
-1 28 3 "" 0
+1 37 3 "" 0
 0
 6 9
 "frameSelector"
@@ -177,7 +207,7 @@ LANG:10007 0
 LANG:10004 0 
 
 3
-"layoutAlignment" "AlignNone"
+"layoutAlignment" "AlignVCenter"
 "dashclr"N "_Transparent"
 "antiAliased" "0"
 E "main(mapping event)
@@ -185,7 +215,7 @@ E "main(mapping event)
   userButton.Clicked();
 }
 " 0
- 0 1 3 2 1 E U  1 E 10 15 360 130
+ 0 1 3 2 1 E 0.6657142857142769 0 0.4260869565217426 -6.657142857142769 -6.391304347826138 1 E 10 15 360 130
 2 19
 "parentNavi"
 ""
@@ -213,22 +243,69 @@ LANG:10001 0
 "
 main()
 {
-
+    int myID = (int)$nodeId;
   if ((bool)$bParentNode == TRUE)
   {
+       if (doIhaveAChild(myID))
+    {
     this.text = \"+ \";
     this.visible = true;
-
+  }
+  }
+    else if (GetParentID(myID) ==0)
+    {
+  //DebugTN(\"hola, i am the main panel\");
+   this.text = \"\";
+      this.visible = false;
   }
   else
   {
-    this.text = \"\";
-    this.visible = false;
+
+
+    if (doIhaveAChild(myID))
+    {
+      this.text = \"+ \";
+      this.visible = true;
+    }
+    else
+    {
+      this.text = \"\";
+      this.visible = false;
+    }
   }
 
 
 
-}" 0
+
+
+}
+
+
+int GetParentID(int myID)
+{
+
+
+  string strServerName = getSystemName();
+  dyn_string ParentNumbers;
+  dpGet(strServerName + \"_PanelTopology.parentNumber\", ParentNumbers);
+
+int val;
+//DebugTN(\"myID\",myID,\"(int)ParentNumbers[myID]\",(int)ParentNumbers[myID]);
+if(myID ==1)
+   val=0;
+else if(myID ==-1)
+{
+ // DebugTN(\"my ID is -1\");
+     val=-1;
+   }
+else
+  val= (int)ParentNumbers[myID];
+
+  return val;
+
+}
+
+" 0
  "bool clicked = true;
 main(mapping event)
 {
@@ -237,7 +314,7 @@ main(mapping event)
 
   if (clicked)
   {
-    DebugTN(\"Hi,Ienterned\");
+   // DebugTN(\"Hi,Ienterned\");
     LoadMyChildPanels();
 this.text = \"- \";
     clicked = false;
@@ -251,8 +328,8 @@ RemoveMyChildPanels();
   }
 }
 " 0
- 0 1 3 2 1 E U  0 E 545 5.648814749292796e-13 575 20.00000000000056
-0 2 2 "0s" 0 0 0 73 0 0  545 5.648814749292796e-13 1
+ 0 1 3 2 1 E U  0 E 551 -10 569 30
+0 2 2 "0s" 0 0 0 201 0 0  560 10 1
 1
 LANG:10001 48 Noto Sans,-1,30,5,700,0,0,0,0,0,0,0,0,0,0,1,Bold
 0 1
@@ -273,17 +350,19 @@ E E "main(bool enter)
 1
 LANG:10001 0 
 
-6
-"maximumSize" "60 -1"
-"sizePolicy" "Expanding Preferred"
-"layoutAlignment" "AlignNone"
+7
+"minimumSize" "30 -1"
+"sizePolicy" "Minimum Preferred"
+"layoutAlignment" "AlignCenter"
+"focusPolicy" "StrongFocus"
 "dashclr"N "_Transparent"
-"selectable" ""
 "antiAliased" "0"
+"transformable" "0"
 "
 main()
 {
   this.text = \"\";
+  string finalText = \"\";
   this.visible = false;
 
   if ((bool)$bSubNode == FALSE)
@@ -295,18 +374,80 @@ main()
   }
   else
   {
-    this.text = \"    \";
-    this.visible = true;
+
+   // int nodeLevel =(int) $iSubNodeLevel;
+//DebugTN(\"debugging the level from the button\",nodeLevel);
+
+      int myID = (int)$nodeId;
+      int parentID = getLevel(myID);
+     // DebugTN(\"parentID\",parentID);
+    for (int i = 1 ; i <= parentID; i++)
+    {
+      finalText =finalText+ \"   \";
+
+    }
+
+
+    this.text=finalText;
+          this.visible = true;
+
   }
 
 }
+
+
+int getLevel(int myID)
+{
+    string strServerName = getSystemName();
+    dyn_uint parentNumbers;
+    dpGet(strServerName + \"_PanelTopology.parentNumber\", parentNumbers);
+
+    int level = 0;
+    int currentID = myID;
+
+    while (1)
+    {
+        int parentID = parentNumbers[currentID];
+
+        // Top-level panel has parentNumber 1 (or 0 depending on your topology)
+        if (parentID <= 1)
+        {
+            level += 1;  // count this level
+            break;
+        }
+
+        // Move up to parent
+        currentID = parentID;
+        level += 1;
+    }
+
+    //DebugTN(\"Panel level for ID \" + myID, level);
+    return level;
+}
+
 " 0
- E 0 1 3 2 1 E 2.311111111111293 0 1 -787.4444444444625 4.916666666666003 0 E 70 20 100 40
-0 2 2 "0s" 0 0 0 72 0 0  70 20 1
+ E 0 1 3 2 1 E U  0 E 39 17 101 43
+0 2 2 "0s" 0 0 0 201 0 0  70 30 1
 1
 LANG:10001 48 Noto Sans,-1,20,5,700,0,0,0,0,0,0,0,0,0,0,1,Bold
 0 1
+LANG:10001 8  Hi Hi  
+32 29
+"SPACER1"
+""
+1 230 10 E E E 1 E 1 E N {0,0,0} E N "_3DFace" E E
+ E E
+8 0 0 0 0 0
+E E E
+0
+1
 LANG:10001 0 
+
+3
+"transparentForMouse" ""
+"sizePolicy" "Expanding Ignored"
+"layoutAlignment" "AlignNone"
+ 230 10 241 49 1
 0
 LAYER, 1 
 0
@@ -334,7 +475,7 @@ LAYER, 7
 "maximumSize" "48 48"
 "layoutAlignment" "AlignLeft|AlignLeading"
 "" ""
-"objects/side_menu_buttons/icon.pnl" 55 45 T 1 1 0 1 -20 0
+"objects/side_menu_buttons/icon.pnl" 55 45 T 1 1 0 1 87 21
 0
 3 3 "textRef" 4
 "minimumSize" "0 48"
@@ -342,7 +483,7 @@ LAYER, 7
 "sizePolicy" "Expanding Preferred"
 "layoutAlignment" "AlignVCenter"
 "" ""
-"ix/objects_parts/menu/menu_text.pnl" 145 60 T 4 1 0 1 -45 -15
+"ix/objects_parts/menu/menu_text.pnl" 145 60 T 4 0.6091370558375822 0 1.0217391304348 23.67512690355059 -59.80434782608801
 0
 4 4 "LAYOUT_GROUP6" 5
 1 2 
@@ -353,11 +494,12 @@ LAYER, 7
 "" ""
 1 1 1 0 0 0 0 1 2
 4 5 "LAYOUT_GROUP8" -1
-2 1 
-19 20 
+3 1 
+19 20 29 
 4 
-"S 19" "2 0 1 1"
+"S 19" "3 0 1 1"
 "S 20" "0 0 1 1"
+"S 29" "2 0 1 1"
 "G 4" "1 0 1 1"
 "" ""
 0 1 0 0
