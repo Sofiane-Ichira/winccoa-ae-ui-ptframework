@@ -117,7 +117,7 @@ firstTime=true;
 bool Pressed=false;
   initButtons();
   delay(2);
-/*while(true)
+while(true)
   {
     int width,hight;
 getValue(this,&quot;size&quot;,width,hight);
@@ -138,7 +138,7 @@ Pressed = false;
 Pressed = true;
   }
 
-  } delay(0.3);*/
+  } delay(0.3);
 
 }
 ]]></script>
