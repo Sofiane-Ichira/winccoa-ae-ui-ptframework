@@ -15,7 +15,8 @@
 
 This clean integration of SCADA functions enhances maintainability and speeds up project development. 
 
-**Version:** WinCC OA 3.20 --> Patch 10 or higher
+**Version:** 
+- WinCC OA 3.20 --> Patch 10 or higher
 
 **Application Name:** WinCC OA Panel Topology Framework
 
