@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel version="14">
+ <properties>
+  <prop name="Name">
+   <prop name="en_US.utf8"></prop>
+   <prop name="de_AT.utf8">navi</prop>
+   <prop name="es_ES.utf8"></prop>
+   <prop name="fr_FR.utf8"></prop>
+   <prop name="tr_TR.utf8"></prop>
+   <prop name="zh_CN.utf8"></prop>
+  </prop>
+  <prop name="Size">301 680</prop>
+  <prop name="BackColor">color-2</prop>
+  <prop name="RefPoint">0 0</prop>
+  <prop name="InitAndTermRef">True</prop>
+  <prop name="SendClick">False</prop>
+  <prop name="RefFileName"></prop>
+  <prop name="LangSwitchMode">1</prop>
+  <prop name="DPI">96</prop>
+  <prop name="PDPI">108.888</prop>
+  <prop name="layoutType">VBox</prop>
+  <prop name="layoutLeftMargin">0</prop>
+  <prop name="layoutRightMargin">0</prop>
+  <prop name="layoutTopMargin">0</prop>
+  <prop name="layoutBottomMargin">0</prop>
+  <prop name="layoutSpacing">0</prop>
+  <prop name="connectorMargin">0</prop>
+ </properties>
+ <events>
+  <script isEscaped="1" name="ScopeLib"><![CDATA[#uses &quot;classes/GUI/GUINaviButtonCollection&quot;
+#uses &quot;PT_SIEM_FRAMEWORK.ctl&quot;
+
+//shared_ptr&lt;GUINaviButtonCollection&gt; ButtonCollection = new GUINaviButtonCollection();
+int iMyScreenNumber = GetMyScreenNumber(); //Ahmed get out the screen number
+
+dyn_int diSeparateNavigationItems = makeDynInt(); //this list must come from some usersettings (e.g. plant model)
+
+public shared_ptr&lt;GUINaviButtonCollection&gt; GetGuiNaviButtonCollection()
+{
+  return daCollection[iMyScreenNumber];
+}
+
+string actualPanelName;
+string strServerName = getSystemName();
+int iFreePos = -1;
+dyn_int diLastQuickNaviButtons;
+
+synchronized initButtons(dyn_int diNodes = makeDynInt())
+{
+  bool bQuickNaviButtons;
+
+  if (dynlen(diNodes) &gt; 0)
+  {
+    if (dynlen(diNodes) == 1 &amp;&amp; diNodes[1]==-1) //-1 means no quick buttons for this user
+      diNodes = makeDynInt();
+
+    bQuickNaviButtons = TRUE;
+    //remove existing quick navibuttons of last user
+    if (dynlen(diLastQuickNaviButtons) &gt; 0)
+      PT_SIEM_removeNaviButton(diLastQuickNaviButtons, &quot;naviModuleA_&quot; + iMyScreenNumber, TRUE);
+    diLastQuickNaviButtons = diNodes;
+  }
+
+
+  int error = pt_checkPanelTopologyCache();
+
+  dyn_int diIDToIgnore;
+
+  for (int i = dynlen(g_PanelTopologyCache[strServerName + &quot;_PanelTopology.nodeName&quot;]); i &gt; 0; i--) //1 because ignore start/root node
+  {
+
+
+
+    if (g_PanelTopologyCache[strServerName + &quot;_PanelTopology.nodeName&quot;][i] == &quot;. . .&quot; )
+    {
+      iFreePos = i;
+      continue;
+    }
+    else if (iFreePos == -1)
+    {
+      continue;
+    }
+
+    if (bQuickNaviButtons &amp;&amp; dynContains(diNodes, i) &lt; 1) //ignore if not in list
+    {
+      continue;
+    }
+
+
+    int iPos = i; //pt pos
+
+    if (g_PanelTopologyCache[strServerName + &quot;_PanelTopology.fileName&quot;][i] == &quot;main.pnl&quot; &amp;&amp; i != 1)
+    {
+      iPos *= -1;
+    }
+
+    // add buttons for navigation and reigster them
+    shape shButtonRef = PT_SIEM_addNaviButton(i, g_PanelTopologyCache[strServerName + &quot;_PanelTopology.parentNumber&quot;][i]/*, daCollection[iMyScreenNumber]*/, EMBEDDED_MODULE3.ModuleName,
+                        (bQuickNaviButtons || g_PanelTopologyCache[strServerName + &quot;_PanelTopology.parentNumber&quot;][i] &lt;= 1) &amp;&amp; getUserPermission(g_PanelTopologyCache[strServerName + &quot;_PanelTopology.permissionBit&quot;][i]),
+                        FALSE, bQuickNaviButtons); //only top nodes are visible
+  }
+
+
+}
+
+setButtonVisibility(string s, string sUser)
+{
+  if (dynlen(daCollection) &gt;= iMyScreenNumber)
+  {
+    for (int i = 0; i &lt; daCollection[iMyScreenNumber].Count()  ; i++)
+    {
+
+      shared_ptr&lt;GUINaviButton&gt; obj = daCollection[iMyScreenNumber].GetByIndex(i);
+
+      if (getTypeName(obj) == &quot;GUINaviPanelButton&quot;  || getTypeName(obj) == &quot;GUIQuickNaviPanelButton&quot;)
+      {
+        int iPtNodeId = obj.getChildPanelNumber(); //ddsNavibuttonsPerScreen[iMyScreenNumber][i+1];
+        bool bVisible = getUserPermission(g_PanelTopologyCache[strServerName + &quot;_PanelTopology.permissionBit&quot;][iPtNodeId]) &amp;&amp;
+                        ((getTypeName(obj)) == &quot;GUIQuickNaviPanelButton&quot; ? TRUE :
+                         (int)g_PanelTopologyCache[strServerName + &quot;_PanelTopology.parentNumber&quot;][iPtNodeId] &lt;= 1) ; //hide subnodes on user switch
+        PT_SIEM_setVisibleNaviButton(i, EMBEDDED_MODULE3.ModuleName(), bVisible);
+
+      }
+    }
+  }
+
+  string sFormat;
+  dyn_string dsContent;
+  langString lsName;
+  string sGroup;
+  //read user quick navi
+  uss_getSpecificUserSetting(sUser, &quot;userQuickNavigation&quot;, sFormat, dsContent, lsName);
+  string sEntries;
+
+  if (dynlen(dsContent) &gt; 0)
+    sEntries = dsContent[1];
+
+  dynClear(dsContent);
+  //add also global quick navi
+  //uss_getSpecificSetting(&quot;_usr&quot;, sGroup, &quot;globalQuickNavigation&quot;, sFormat, dsContent, lsName);
+   uss_getSpecificSettingGlobally( sGroup, &quot;globalQuickNavigation&quot;, sFormat, dsContent, lsName);
+
+  if (dynlen(dsContent) &gt; 0)
+    sEntries += &quot;|&quot; + dsContent[1];
+
+  strreplace(sEntries, &quot;,&quot;, &quot;|&quot;);
+  dsContent = strsplit(sEntries, &quot;|&quot;);
+
+  if (dynlen(dsContent) == 0)
+    dsContent = makeDynInt(-1);
+
+  initButtons(dsContent);
+
+}
+
+
+public PT_SIEM_setVisibleNaviButton(int iButtonIndex, string moduleName = myModuleName(), bool bVisible) synchronized(ddsNavibuttonsPerScreen)
+{
+  string panelName = rootPanel(moduleName);
+  int iScreennumber = GetMyScreenNumber();//Ahmed change the screen number
+
+  {
+    daCollection[iScreennumber].GetByIndex(iButtonIndex).SetRefVisible(bVisible);
+  }
+}
+
+int uss_getSpecificSettingGlobally(string sGroupOrUser,string sSettingName,string &amp;sFormat, dyn_string &amp;dsContent,langString &amp;lsName)
+{
+    int iErr = uss_getSpecificSetting(&quot;_usr&quot;, sGroupOrUser, sSettingName, sFormat, dsContent, lsName);
+    if(iErr == -1) return iErr;
+    if( lsName == &quot;&quot;)
+    {
+      iErr != 0? iErr = 0 : NULL;
+      iErr == uss_getSpecificSetting(&quot;_usg&quot;, sGroupOrUser, sSettingName, sFormat, dsContent, lsName);
+      if(iErr == -1) return iErr;
+    }
+    if( lsName == &quot;&quot;)
+    {
+      iErr != 0? iErr = 0 : NULL;
+      iErr == uss_getSpecificSetting(&quot;_uss&quot;, sGroupOrUser, sSettingName, sFormat, dsContent, lsName);
+      if(iErr == -1) return iErr;
+
+    }
+
+
+
+}
+
+]]></script>
+  <script isEscaped="1" name="Initialize"><![CDATA[#uses &quot;uss_userSettings&quot;
+#uses &quot;PT_SIEM_FRAMEWORK&quot;
+
+main()
+{
+
+  g_textBeforeIcon              = searchConfigInAllLevels(&quot;config.level&quot;, &quot;pt_siem_framework&quot;, &quot;textBeforeIcon&quot;            , &quot;     &quot;);
+  g_bShowTextBeforeIconOnlyOnce = searchConfigInAllLevels(&quot;config.level&quot;, &quot;pt_siem_framework&quot;, &quot;showTextBeforeIconOnlyOnce&quot;, FALSE  );
+  g_hideSubMenuOnCollapse       = searchConfigInAllLevels(&quot;config.level&quot;, &quot;pt_siem_framework&quot;, &quot;hideSubMenuOnCollapse&quot;     , FALSE  );
+
+
+
+  firstTime = true;
+  bool Pressed = false;
+  EMBEDDED_MODULE3.ModuleName =  ptms_BuildModuleName(&quot;naviModuleA&quot;, iMyScreenNumber);
+  RootPanelOnModule(&quot;para/PanelTopology/templates/SIE/menu_button_module&quot;, &quot;menu_buttons&quot;, EMBEDDED_MODULE3.ModuleName, makeDynString());
+  Init_btns(daCollection);
+
+  initButtons();
+  dpConnect(&quot;setButtonVisibility&quot;, TRUE, myUiDpName() + &quot;.UserName&quot;);
+
+  while (true)
+  {
+    int width, hight;
+    getValue(this, &quot;size&quot;, width, hight);
+
+
+    if (width &lt;= 280 &amp;&amp; Pressed)
+    {
+      EMBEDDED_MODULE3.contentsX(0);
+
+      collapseMenu(1);
+      Pressed = false;
+
+      EMBEDDED_MODULE3.hScrollBarMode(&quot;AlwaysOff&quot;);
+
+    }
+
+    else if (width &gt; 280 &amp;&amp; ! Pressed)
+    {
+
+      collapseMenu(0);
+      firstTime = false;
+      Pressed = true;
+      EMBEDDED_MODULE3.horizontalScrollBarPolicy(&quot;ScrollBarAsNeeded&quot;);
+      EMBEDDED_MODULE3.hScrollBarMode(&quot;Auto&quot;);
+
+    }
+
+    delay(0.3);
+  }
+}
+
+
+]]></script>
+ </events>
+ <shapes>
+  <reference Name="btn_exit" parentSerial="13" referenceId="9">
+   <properties>
+    <prop name="FileName">IX/objects/side_menu_buttons/exit.pnl</prop>
+    <prop name="Location">45 875</prop>
+    <prop name="Geometry">1 0 0 1 -5 105</prop>
+    <prop name="TabOrder">45</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Expanding" vertical="Preferred"/>
+    </prop>
+    <prop name="layoutAlignment">AlignLeft|AlignLeading</prop>
+   </properties>
+  </reference>
+  <reference Name="btn_theme" parentSerial="13" referenceId="10">
+   <properties>
+    <prop name="FileName">IX/objects/side_menu_buttons/theme.pnl</prop>
+    <prop name="Location">30 720</prop>
+    <prop name="Geometry">1 0 0 1 5 -90</prop>
+    <prop name="TabOrder">46</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Expanding" vertical="Preferred"/>
+    </prop>
+    <prop name="layoutAlignment">AlignLeft|AlignLeading</prop>
+   </properties>
+  </reference>
+  <reference Name="btn_lang" parentSerial="13" referenceId="11">
+   <properties>
+    <prop name="FileName">IX/objects/side_menu_buttons/language.pnl</prop>
+    <prop name="Location">40 825</prop>
+    <prop name="Geometry">1 0 0 1 5 -125</prop>
+    <prop name="TabOrder">47</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Expanding" vertical="Preferred"/>
+    </prop>
+    <prop name="layoutAlignment">AlignLeft|AlignLeading</prop>
+   </properties>
+  </reference>
+  <shape Name="SPACER3" layerId="0" shapeType="SPACER">
+   <properties>
+    <prop name="serialId">145</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">205 790</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">{0,0,0}</prop>
+    <prop name="BackColor">{255,255,255}</prop>
+    <prop name="TabOrder">49</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
+     <prop name="es_ES.utf8"></prop>
+     <prop name="fr_FR.utf8"></prop>
+     <prop name="tr_TR.utf8"></prop>
+     <prop name="zh_CN.utf8"></prop>
+    </prop>
+    <prop name="TransparentForMouse">True</prop>
+    <prop name="maximumSize">-1 30</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Ignored" vertical="Expanding"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Location">205 790</prop>
+    <prop name="Size">11 52</prop>
+    <prop name="Orientation">vertical</prop>
+   </properties>
+  </shape>
+  <reference Name="btn_menu" parentSerial="13" referenceId="16">
+   <properties>
+    <prop name="FileName">IX/objects/side_menu_buttons/menu.pnl</prop>
+    <prop name="Location">25 40</prop>
+    <prop name="Geometry">0.1298342541436464 0 0 1 36.75414364640885 -35</prop>
+    <prop name="TabOrder">50</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Expanding" vertical="Preferred"/>
+    </prop>
+    <prop name="layoutAlignment">AlignLeft|AlignLeading</prop>
+   </properties>
+  </reference>
+  <reference Name="PANEL_REF1" parentSerial="13" referenceId="17">
+   <properties>
+    <prop name="FileName">objects/side_menu_buttons/generic.pnl</prop>
+    <prop name="Location">27.50000000000574 841.5</prop>
+    <prop name="TabOrder">50</prop>
+    <prop name="dollarParameters">
+     <prop name="dollarParameter">
+      <prop name="Dollar">$bParentNode</prop>
+      <prop name="Value">FALSE</prop>
+     </prop>
+     <prop name="dollarParameter">
+      <prop name="Dollar">$bQuickNaviButton</prop>
+      <prop name="Value">FALSE</prop>
+     </prop>
+     <prop name="dollarParameter">
+      <prop name="Dollar">$bSubNode</prop>
+      <prop name="Value">FALSE</prop>
+     </prop>
+     <prop name="dollarParameter">
+      <prop name="Dollar">$bVisible</prop>
+      <prop name="Value">TRUE</prop>
+     </prop>
+     <prop name="dollarParameter">
+      <prop name="Dollar">$nodeId</prop>
+      <prop name="Value">-1</prop>
+     </prop>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+   </properties>
+  </reference>
+  <shape Name="SPACER2" layerId="0" shapeType="SPACER">
+   <properties>
+    <prop name="serialId">39</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">185 570</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">{0,0,0}</prop>
+    <prop name="BackColor">{255,255,255}</prop>
+    <prop name="TabOrder">27</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
+     <prop name="es_ES.utf8"></prop>
+     <prop name="fr_FR.utf8"></prop>
+     <prop name="tr_TR.utf8"></prop>
+     <prop name="zh_CN.utf8"></prop>
+    </prop>
+    <prop name="TransparentForMouse">True</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Ignored" vertical="Preferred"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Location">185 570</prop>
+    <prop name="Size">11 52</prop>
+    <prop name="Orientation">vertical</prop>
+   </properties>
+  </shape>
+  <shape Name="EMBEDDED_MODULE3" layerId="0" shapeType="EMBEDDED_MODULE">
+   <properties>
+    <prop name="serialId">194</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">63.0000000000075 24.5</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">_3DText</prop>
+    <prop name="BackColor">_3DFace</prop>
+    <prop name="TabOrder">53</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+    </prop>
+    <prop name="minimumSize">-1 200</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Expanding" vertical="Expanding"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Font">
+     <prop name="en_US.utf8">Noto Sans,-1,16,5,400,0,0,0,0,0,0,0,0,0,0,1</prop>
+    </prop>
+    <prop name="Location">63.0000000000075 24.5</prop>
+    <prop name="Size">141 121</prop>
+    <extended>
+     <prop name="newPanelAnimDuration" type="INT">0</prop>
+     <prop name="oldPanelAnimDuration" type="INT">0</prop>
+     <prop name="newPanelAnimateOpacity" type="BOOL">True</prop>
+     <prop name="oldPanelAnimateOpacity" type="BOOL">True</prop>
+     <prop name="newPanelAnimateSize" type="BOOL">True</prop>
+     <prop name="oldPanelAnimateSize" type="BOOL">True</prop>
+     <prop name="newPanelAnimType" type="CHAR_STRING">TopLeft</prop>
+     <prop name="oldPanelAnimType" type="CHAR_STRING">BottomRight</prop>
+     <prop name="horizontalScrollBarPolicy" type="ENUM">1</prop>
+     <prop name="sizeAdjustPolicy" type="ENUM">0</prop>
+    </extended>
+   </properties>
+  </shape>
+ </shapes>
+ <groups>
+  <layout Name="LAYOUT_GROUP1" parentSerial="15" serial="13">
+   <properties>
+    <prop idx="2" name="shapeSerial">39</prop>
+    <prop idx="7" name="shapeSerial">145</prop>
+    <prop idx="1" name="shapeSerial">194</prop>
+    <prop idx="3" name="groupSerial">17</prop>
+    <prop idx="0" name="groupSerial">16</prop>
+    <prop idx="4" name="groupSerial">11</prop>
+    <prop idx="5" name="groupSerial">10</prop>
+    <prop idx="6" name="groupSerial">9</prop>
+    <prop name="isContainerShape">False</prop>
+    <prop name="layoutType">VBox</prop>
+    <prop name="layoutSpacing">0</prop>
+   </properties>
+  </layout>
+  <layout Name="LAYOUT_GROUP3" parentSerial="-1" serial="15">
+   <properties>
+    <prop idx="0" name="groupSerial">13</prop>
+    <prop name="isContainerShape">False</prop>
+    <prop name="layoutType">VBox</prop>
+    <prop name="layoutLeftMargin">0</prop>
+    <prop name="layoutRightMargin">0</prop>
+    <prop name="layoutTopMargin">0</prop>
+    <prop name="layoutBottomMargin">0</prop>
+    <prop name="layoutSpacing">10</prop>
+   </properties>
+  </layout>
+ </groups>
+</panel>

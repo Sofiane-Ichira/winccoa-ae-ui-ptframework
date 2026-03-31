@@ -1,0 +1,1 @@
+{ "returnmessage": { "errorcode" : 16, "errortext" : "no license update data available", "internalerrorcode" : "0x18060021", "internalerrortext" : "There are currently no open transactions available for chosen CmContainer." } }

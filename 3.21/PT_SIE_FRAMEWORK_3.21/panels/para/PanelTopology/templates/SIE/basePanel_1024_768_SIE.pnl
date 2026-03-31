@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel version="14">
+ <properties>
+  <prop name="Name">
+   <prop name="en_US.utf8">WinCC Open Architecture</prop>
+   <prop name="de_AT.utf8">WinCC Open Architecture</prop>
+   <prop name="es_ES.utf8">WinCC Open Architecture</prop>
+   <prop name="fr_FR.utf8">WinCC Open Architecture</prop>
+   <prop name="tr_TR.utf8">WinCC Open Architecture</prop>
+   <prop name="zh_CN.utf8">WinCC Open Architecture</prop>
+   <prop name="en_GB.utf8"></prop>
+  </prop>
+  <prop name="Size">1819 1078</prop>
+  <prop name="BackColor">color-1</prop>
+  <prop name="RefPoint">168 322</prop>
+  <prop name="InitAndTermRef">True</prop>
+  <prop name="SendClick">False</prop>
+  <prop name="RefFileName"></prop>
+  <prop name="LangSwitchMode">1</prop>
+  <prop name="DPI">120</prop>
+  <prop name="PDPI">120</prop>
+  <prop name="layoutType">VBox</prop>
+  <prop name="layoutLeftMargin">0</prop>
+  <prop name="layoutRightMargin">0</prop>
+  <prop name="layoutTopMargin">0</prop>
+  <prop name="layoutBottomMargin">0</prop>
+  <prop name="layoutSpacing">0</prop>
+ </properties>
+ <events>
+  <script isEscaped="1" name="ScopeLib"><![CDATA[#uses &quot;classes/GUI/GUIBasePanel&quot;
+#uses &quot;classes/GUI/GUIFaceplate&quot;
+#event faceplateToOpen(string sFaceplate, bool bOpen=TRUE)
+#event detailToOpen(string sPanel, dyn_string dsParams, bool bOpen=TRUE)
+
+dyn_string dsPanels;
+
+shared_ptr&lt;GUIBasePanel&gt; basePanel = new GUIBasePanel(getShape(&quot;naviModule&quot;), getShape(&quot;mainModule&quot;), getShape(&quot;headerModule&quot;), getShape(&quot;infoModule&quot;), getShape(&quot;faceplateModule&quot;), $Screen);
+]]></script>
+  <script isEscaped="1" name="Initialize"><![CDATA[main()
+{
+  moduleMaximize(myModuleName());
+  pt_checkPanelTopologyCache();
+  string strTitle;
+  int iItem = 0;
+
+  if (!isDollarDefined(&quot;$Screen&quot;) || !isDollarDefined(&quot;$Number&quot;))
+  {
+    pt_openBasePanel(&quot;3_3&quot;);
+  }
+  else
+  {
+    // Set the appropriate module names
+    ptms_LoadInitPanel($Number, $Screen, isDollarDefined(&quot;$Node&quot;) ? $Node : 0);
+  }
+
+  basePanel.Initialize();
+
+}
+]]></script>
+ </events>
+ <shapes>
+  <shape Name="mainModule" layerId="0" shapeType="EMBEDDED_MODULE">
+   <properties>
+    <prop name="serialId">39</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">295.8432129358283 260</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">_3DText</prop>
+    <prop name="BackColor">color-1</prop>
+    <prop name="TabOrder">0</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
+     <prop name="es_ES.utf8"></prop>
+     <prop name="fr_FR.utf8"></prop>
+     <prop name="tr_TR.utf8"></prop>
+     <prop name="zh_CN.utf8"></prop>
+     <prop name="en_GB.utf8"></prop>
+    </prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Expanding" vertical="Expanding"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Font">
+     <prop name="en_US.utf8">Siemens Sans,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1</prop>
+     <prop name="de_AT.utf8">Siemens Sans,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1</prop>
+     <prop name="es_ES.utf8">Siemens Sans,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="fr_FR.utf8">Siemens Sans,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="tr_TR.utf8">Siemens Sans,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="zh_CN.utf8">Siemens Sans,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="en_GB.utf8">Siemens Sans,-1,13,5,50,0,0,0,0,0</prop>
+    </prop>
+    <prop name="Location">386.116242186865 236.3596004439512</prop>
+    <prop name="Size">1325 711</prop>
+    <extended>
+     <prop name="newPanelAnimDuration" type="INT">0</prop>
+     <prop name="oldPanelAnimDuration" type="INT">0</prop>
+     <prop name="newPanelAnimateOpacity" type="BOOL">True</prop>
+     <prop name="oldPanelAnimateOpacity" type="BOOL">True</prop>
+     <prop name="newPanelAnimateSize" type="BOOL">True</prop>
+     <prop name="oldPanelAnimateSize" type="BOOL">True</prop>
+     <prop name="newPanelAnimType" type="CHAR_STRING">None</prop>
+     <prop name="oldPanelAnimType" type="CHAR_STRING">None</prop>
+     <prop name="verticalScrollBarPolicy" type="ENUM">0</prop>
+     <prop name="horizontalScrollBarPolicy" type="ENUM">0</prop>
+     <prop name="sizeAdjustPolicy" type="ENUM">2</prop>
+    </extended>
+   </properties>
+  </shape>
+  <shape Name="headerModule" layerId="0" shapeType="EMBEDDED_MODULE">
+   <properties>
+    <prop name="serialId">46</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">198.9999999999418 11</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">_3DText</prop>
+    <prop name="BackColor">STD_grey_light</prop>
+    <prop name="TabOrder">7</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
+     <prop name="es_ES.utf8"></prop>
+     <prop name="fr_FR.utf8"></prop>
+     <prop name="tr_TR.utf8"></prop>
+     <prop name="zh_CN.utf8"></prop>
+     <prop name="en_GB.utf8"></prop>
+    </prop>
+    <prop name="minimumSize">-1 48</prop>
+    <prop name="maximumSize">-1 48</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Preferred" vertical="Preferred"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Font">
+     <prop name="en_US.utf8">Tahoma,-1,21,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular</prop>
+     <prop name="de_AT.utf8">Tahoma,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1</prop>
+     <prop name="es_ES.utf8">Tahoma,-1,21,5,50,0,0,0,0,0,Regular</prop>
+     <prop name="fr_FR.utf8">Tahoma,-1,21,5,50,0,0,0,0,0,Regular</prop>
+     <prop name="tr_TR.utf8">Tahoma,-1,21,5,50,0,0,0,0,0,Regular</prop>
+     <prop name="zh_CN.utf8">Tahoma,-1,21,5,50,0,0,0,0,0,Regular</prop>
+     <prop name="en_GB.utf8">Tahoma,-1,20,5,50,0,0,0,0,0,Regular</prop>
+    </prop>
+    <prop name="Location">0 0</prop>
+    <prop name="Size">1920 48</prop>
+    <extended>
+     <prop name="horizontalScrollBarPolicy" type="ENUM">1</prop>
+     <prop name="verticalScrollBarPolicy" type="ENUM">1</prop>
+    </extended>
+   </properties>
+  </shape>
+  <shape Name="infoModule" layerId="0" shapeType="EMBEDDED_MODULE">
+   <properties>
+    <prop name="serialId">50</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">353.6609534011783 946</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">_3DText</prop>
+    <prop name="BackColor">color-1</prop>
+    <prop name="TabOrder">11</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
+     <prop name="es_ES.utf8"></prop>
+     <prop name="fr_FR.utf8"></prop>
+     <prop name="tr_TR.utf8"></prop>
+     <prop name="zh_CN.utf8"></prop>
+     <prop name="en_GB.utf8"></prop>
+    </prop>
+    <prop name="minimumSize">500 81</prop>
+    <prop name="maximumSize">-1 81</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Expanding" vertical="Fixed"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Font">
+     <prop name="en_US.utf8">Tahoma,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1</prop>
+     <prop name="de_AT.utf8">Tahoma,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1</prop>
+     <prop name="es_ES.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="fr_FR.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="tr_TR.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="zh_CN.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="en_GB.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+    </prop>
+    <prop name="Location">295 48</prop>
+    <prop name="Size">1481 80</prop>
+    <extended>
+     <prop name="horizontalScrollBarPolicy" type="ENUM">1</prop>
+     <prop name="verticalScrollBarPolicy" type="ENUM">1</prop>
+    </extended>
+   </properties>
+   <events>
+    <script isEscaped="1" name="Initialize"><![CDATA[main()
+{
+  string moduleDp = basePanel.GetInfoPanelName();
+
+  if (!dpExists(moduleDp))
+  {
+    dpCreate(moduleDp, &quot;ExampleDP_Bit&quot;);
+    delay(1);
+
+  }
+
+  dpSet(moduleDp + &quot;.&quot;, TRUE);
+
+  dpConnect(&quot;work&quot;, moduleDp + &quot;.&quot;);
+}
+
+work(string dp, bool vis)
+{
+  this.visible = vis;
+}
+]]></script>
+   </events>
+  </shape>
+  <shape Name="SPACER1" layerId="0" shapeType="SPACER">
+   <properties>
+    <prop name="serialId">51</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">60 465</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">{0,0,0}</prop>
+    <prop name="BackColor">{255,255,255}</prop>
+    <prop name="TabOrder">12</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
+     <prop name="es_ES.utf8"></prop>
+     <prop name="fr_FR.utf8"></prop>
+     <prop name="tr_TR.utf8"></prop>
+     <prop name="zh_CN.utf8"></prop>
+    </prop>
+    <prop name="TransparentForMouse">True</prop>
+    <prop name="minimumSize">48 -1</prop>
+    <prop name="maximumSize">48 -1</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Expanding" vertical="Ignored"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Location">60 465</prop>
+    <prop name="Size">61 61</prop>
+    <prop name="Orientation">horizontal</prop>
+   </properties>
+  </shape>
+  <shape Name="naviModule" layerId="0" shapeType="EMBEDDED_MODULE">
+   <properties>
+    <prop name="serialId">49</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">0 48</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">_3DText</prop>
+    <prop name="BackColor">color-2</prop>
+    <prop name="TabOrder">10</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
+     <prop name="es_ES.utf8"></prop>
+     <prop name="fr_FR.utf8"></prop>
+     <prop name="tr_TR.utf8"></prop>
+     <prop name="zh_CN.utf8"></prop>
+     <prop name="en_GB.utf8"></prop>
+    </prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Preferred" vertical="Preferred"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Font">
+     <prop name="en_US.utf8">Tahoma,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1</prop>
+     <prop name="de_AT.utf8">Siemens Sans,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1,Roman</prop>
+     <prop name="es_ES.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="fr_FR.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="tr_TR.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="zh_CN.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+     <prop name="en_GB.utf8">Tahoma,-1,13,5,50,0,0,0,0,0</prop>
+    </prop>
+    <prop name="Location">0 48</prop>
+    <prop name="Size">300 1032</prop>
+    <extended>
+     <prop name="horizontalScrollBarPolicy" type="ENUM">1</prop>
+     <prop name="verticalScrollBarPolicy" type="ENUM">1</prop>
+     <prop name="newPanelAnimDuration" type="INT">0</prop>
+     <prop name="sizeAdjustPolicy" type="ENUM">0</prop>
+     <prop name="newPanelAnimateOpacity" type="BOOL">True</prop>
+     <prop name="newPanelAnimateSize" type="BOOL">True</prop>
+     <prop name="newPanelAnimType" type="ENUM">0</prop>
+    </extended>
+   </properties>
+  </shape>
+  <shape Name="faceplateModule" layerId="0" shapeType="EMBEDDED_MODULE">
+   <properties>
+    <prop name="serialId">53</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">1860 -130</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">False</prop>
+    <prop name="ForeColor">_3DText</prop>
+    <prop name="BackColor">color-1</prop>
+    <prop name="TabOrder">14</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+     <prop name="de_AT.utf8"></prop>
+     <prop name="es_ES.utf8"></prop>
+     <prop name="fr_FR.utf8"></prop>
+     <prop name="tr_TR.utf8"></prop>
+     <prop name="zh_CN.utf8"></prop>
+    </prop>
+    <prop name="minimumSize">450 -1</prop>
+    <prop name="maximumSize">450 -1</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Fixed" vertical="Preferred"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Font">
+     <prop name="en_US.utf8">Siemens Sans,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1,Roman</prop>
+     <prop name="de_AT.utf8">Siemens Sans,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1,Roman</prop>
+     <prop name="es_ES.utf8">Siemens Sans,-1,13,5,50,0,0,0,0,0,Roman</prop>
+     <prop name="fr_FR.utf8">Siemens Sans,-1,13,5,50,0,0,0,0,0,Roman</prop>
+     <prop name="tr_TR.utf8">Siemens Sans,-1,13,5,50,0,0,0,0,0,Roman</prop>
+     <prop name="zh_CN.utf8">Siemens Sans,-1,13,5,50,0,0,0,0,0,Roman</prop>
+    </prop>
+    <prop name="Location">1860 -130</prop>
+    <prop name="Size">76 881</prop>
+    <extended>
+     <prop name="newPanelAnimDuration" type="INT">0</prop>
+     <prop name="oldPanelAnimDuration" type="INT">0</prop>
+     <prop name="newPanelAnimateOpacity" type="BOOL">True</prop>
+     <prop name="oldPanelAnimateOpacity" type="BOOL">True</prop>
+     <prop name="newPanelAnimateSize" type="BOOL">True</prop>
+     <prop name="oldPanelAnimateSize" type="BOOL">True</prop>
+     <prop name="newPanelAnimType" type="CHAR_STRING">TopLeft</prop>
+     <prop name="oldPanelAnimType" type="CHAR_STRING">BottomRight</prop>
+     <prop name="frameShape" type="ENUM">0</prop>
+     <prop name="frameShadow" type="ENUM">16</prop>
+     <prop name="lineWidth" type="INT">0</prop>
+     <prop name="verticalScrollBarPolicy" type="ENUM">0</prop>
+     <prop name="horizontalScrollBarPolicy" type="ENUM">0</prop>
+    </extended>
+   </properties>
+   <events>
+    <script isEscaped="1" name="Initialize"><![CDATA[#uses &quot;classes/GUI/GUIFaceplate&quot;
+
+dyn_string dsFaceplates;
+
+main()
+{
+//   pt_checkPanelTopologyCache();
+  GUIFaceplate::AddFunctionPtr(self.faceplateToOpen, self.detailToOpen);
+
+
+  RootPanelOnModule(&quot;/IX/faceplates/faceplateSideModuleBasePanel&quot;, &quot;menu&quot;, faceplateModule.ModuleName(), makeDynString(&quot;$moduleName:&quot; + myModuleName(), &quot;$modName:&quot; + faceplateModule.ModuleName(), &quot;$beamed:&quot; + false));
+
+  uiConnect(&quot;visibleCB&quot;, self.faceplateToOpen);
+}
+
+visibleCB(string sFaceplate, bool bOpen)
+{
+  if (sFaceplate != &quot;&quot; &amp;&amp; strpos(sFaceplate, &quot;§&quot;) &gt; 0)
+    sFaceplate = substr(sFaceplate, 0, strpos(sFaceplate, &quot;§&quot;));
+
+  int iPos = dynContains(dsFaceplates, sFaceplate);
+
+  if (sFaceplate == &quot;&quot; &amp;&amp; !bOpen) //clear all
+  {
+    dynClear(dsFaceplates);
+    this.visible(false);
+  }
+  else if (bOpen)
+  {
+    if (iPos &lt; 1)
+    {
+      dynAppend(dsFaceplates, sFaceplate);
+      this.visible(true);
+    }
+  }
+  else //close
+  {
+    if (iPos &gt; 0)
+    {
+      dynRemove(dsFaceplates, iPos);
+      this.visible(dynlen(dsFaceplates) &gt; 0);
+    }
+  }
+
+// DebugN(&quot;faceplate visible?&quot;,dsFaceplates, sFaceplate, bOpen);
+}
+]]></script>
+   </events>
+  </shape>
+  <shape Name="detailModule" layerId="0" shapeType="EMBEDDED_MODULE">
+   <properties>
+    <prop name="serialId">57</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">1650 129</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">False</prop>
+    <prop name="ForeColor">_3DText</prop>
+    <prop name="BackColor">color-1</prop>
+    <prop name="TabOrder">16</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="Font">
+     <prop name="en_US.utf8">Noto Sans,-1,20,5,400,0,0,0,0,0,0,0,0,0,0,1</prop>
+    </prop>
+    <prop name="Location">1650 129</prop>
+    <prop name="Size">169 432</prop>
+   </properties>
+   <events>
+    <script isEscaped="1" name="Initialize"><![CDATA[#uses &quot;classes/GUI/GUIFaceplate&quot;
+
+main()
+{
+//   pt_checkPanelTopologyCache();
+
+  //RootPanelOnModule(&quot;/IX/faceplates/detail&quot;, &quot;menu&quot;, faceplateModule.ModuleName(), makeDynString(&quot;$moduleName:&quot; + myModuleName(), &quot;$modName:&quot; + faceplateModule.ModuleName(), &quot;$beamed:&quot; + false));
+
+  uiConnect(&quot;visibleCB&quot;, self.detailToOpen);
+}
+
+visibleCB(string sDetailPanel, dyn_string dsDollar, bool bOpen)
+{
+  string sPanelId = sDetailPanel + &quot;§&quot; + (string)dsDollar;
+
+  int iPos = dynContains(dsPanels, sPanelId);
+
+  if(bOpen)
+  {
+    if (iPos &gt; 0) //move to end
+      dynRemove(dsPanels, iPos);
+
+    dynAppend(dsPanels, sPanelId);
+  }
+  else
+  {
+    if (iPos &gt; 0)
+      dynRemove(dsPanels, iPos);
+  }
+  if (dynlen(dsPanels) &gt; 0)
+  {
+    dyn_string ds = strsplit(dsPanels.last(), &quot;§&quot;);
+    string sPanel = ds[1];
+    dyn_string dsDollars;
+    if (dynlen(ds) &gt; 1 &amp;&amp; strlen(ds[2])&gt;0)
+    {
+      dsDollars = strsplit(ds[2], &quot; | &quot;);
+    }
+    dyn_int diSize = getPanelSize(sPanel);
+
+    setMultiValue(&quot;detailModule&quot;, &quot;minimumSize&quot;, diSize[1], diSize[2],
+                  &quot;detailModule&quot;,&quot;maximumSize&quot;, diSize[1], diSize[2]);
+    RootPanelOnModule(sPanel, dsPanels.last() , this.ModuleName(), dsDollars);
+    this.visible(true);
+  }
+  else
+    this.visible(false);
+}
+]]></script>
+   </events>
+  </shape>
+ </shapes>
+ <groups>
+  <layout Name="LAYOUT_GROUP1" parentSerial="1" serial="0">
+   <properties>
+    <prop idx="0" name="shapeSerial">39</prop>
+    <prop idx="1" name="shapeSerial">53</prop>
+    <prop name="isContainerShape">False</prop>
+    <prop name="layoutType">HBox</prop>
+    <prop name="layoutSpacing">0</prop>
+   </properties>
+  </layout>
+  <layout Name="LAYOUT_GROUP3" parentSerial="2" serial="1">
+   <properties>
+    <prop idx="0" name="shapeSerial">50</prop>
+    <prop idx="1" name="groupSerial">0</prop>
+    <prop name="isContainerShape">False</prop>
+    <prop name="layoutType">VBox</prop>
+    <prop name="layoutSpacing">0</prop>
+   </properties>
+  </layout>
+  <layout Name="LAYOUT_GROUP4" parentSerial="3" serial="2">
+   <properties>
+    <prop idx="0" name="shapeSerial">51</prop>
+    <prop idx="1" name="groupSerial">1</prop>
+    <prop name="isContainerShape">False</prop>
+    <prop name="layoutType">HBox</prop>
+    <prop name="layoutSpacing">0</prop>
+   </properties>
+  </layout>
+  <layout Name="LAYOUT_GROUP5" parentSerial="-1" serial="3">
+   <properties>
+    <prop idx="0" name="shapeSerial">46</prop>
+    <prop idx="1" name="groupSerial">2</prop>
+    <prop name="isContainerShape">False</prop>
+    <prop name="layoutType">VBox</prop>
+    <prop name="layoutSpacing">0</prop>
+   </properties>
+  </layout>
+ </groups>
+</panel>

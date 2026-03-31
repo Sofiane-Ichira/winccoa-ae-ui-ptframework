@@ -1,0 +1,17 @@
+[general]
+pvss_path = "C:/Program Files/Siemens/WinCC_OA/3.21"
+proj_path = "C:/Program Files/Siemens/WinCC_OA/3.21/Stdlib_3.21"
+proj_path = "C:/Program Files/Siemens/WinCC_OA/3.21/Examples_3.21"
+
+proj_path = "C:/Users/Z0058BSR/Desktop/PT_SIE_FRAMEWORK_3.21"
+proj_path = "C:/Users/Z0058BSR/Desktop/WinCCOAFrameworkAppExample_3.21"
+proj_version = "3.21"
+useNGA = 1
+useSQLite = 1
+langs = "en_US.utf8"
+[ui]
+defaultFont = "Noto Sans"
+httpServer = "https://dinm5CG54419S1:443"
+[webClient]
+httpsPort = 443
+httpPort = 0

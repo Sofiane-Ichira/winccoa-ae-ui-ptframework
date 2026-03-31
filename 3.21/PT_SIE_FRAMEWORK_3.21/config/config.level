@@ -1,0 +1,10 @@
+[stdlib]
+openFaceplaceTriggerEvent = 1
+
+[pt_siem_framework]
+#hideSubMenuOnCollapse = 1
+#textBeforeIcon = "+ "
+#showTextBeforeIconOnlyOnce = 1
+
+[ui]
+LoadCtrlLibs = "classes/GUI/GUIFaceplate"

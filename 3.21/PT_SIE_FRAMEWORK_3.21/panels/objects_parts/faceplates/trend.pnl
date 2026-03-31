@@ -1,0 +1,117 @@
+V 14
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+PANEL,-1 -1 855 881 N "STDLIB_panelBackground" 1
+"$DP"
+"main()
+{
+  setPanelData();
+}" 0
+ E E E E 1 -1 -1 0  70 50
+""0  1
+E "public void setPanelData()
+{
+  string sDp = $DP;
+  string sDpt = stdlib_dpTypeName(sDp);
+  dyn_string dsDptTrendCurves;
+  dyn_string dsDollarTrendCurves;
+
+  sDp=stdlib_removeTrailingDot(sDp);
+
+  if (dpExists(\"_ds_\"+sDpt+\".trendElements\"))
+    dpGet(\"_ds_\"+sDpt+\".trendElements\" , dsDptTrendCurves);
+
+  for (int i = 1; i<=dynlen(dsDptTrendCurves); i++)
+  {
+    string sTemp = dsDptTrendCurves[i];
+    strreplace(sTemp, sDpt, sDp);
+    dsDollarTrendCurves[i] = \"$CURVE\" + i + \":\" + sTemp;
+  }
+
+  delay(0,50);
+  invokeMethod(\"PANEL_REF2\", \"setTrendByName\", \"_VarTrend_STDLIB_general\", -1, dsDollarTrendCurves);
+}
+" 0
+ 4
+"CBRef" "1"
+"EClose" E
+"dpi" "96"
+"pdpi" "96"
+2 1 0 0 0 0 1 0
+""
+DISPLAY_LAYER, 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+LAYER, 0 
+0
+1 53 0 "" 1050
+0
+13 52
+"btnRefreshTrend"
+""
+1 374.9354838710224 34 E E E 1 E 1 E N "_ButtonText" E N "_Button" E E
+ E E
+3 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 13 Refresh Trend
+LANG:10000 19 Trend aktualisieren
+LANG:10027 13 Refresh Trend
+
+4
+"minimumSize" "30 14"
+"maximumSize" "30 14"
+"sizePolicy" "Fixed Fixed"
+"layoutAlignment" "AlignCenter"
+3
+LANG:10001 39 Arial,-1,13,5,400,0,0,0,0,0,0,0,0,0,0,1
+LANG:10000 26 Arial,-1,13,5,50,0,0,0,0,0
+LANG:10027 26 Arial,-1,13,5,50,0,0,0,0,0
+0  473.0645161290869 -2.095238095237988 506.0645161290869 14.904761904762
+
+P 
+4294967295
+"pictures/refresh_e.gif"
+3
+LANG:10001 12 PUSH_BUTTON2
+LANG:10000 12 PUSH_BUTTON2
+LANG:10027 12 PUSH_BUTTON2
+"main()
+{
+  setPanelData();
+}
+" 0
+ E E E
+0
+LAYER, 1 
+0
+0
+LAYER, 2 
+0
+0
+LAYER, 3 
+0
+0
+LAYER, 4 
+0
+0
+LAYER, 5 
+0
+0
+LAYER, 6 
+0
+0
+LAYER, 7 
+0
+0
+3 0 "PANEL_REF2" -1
+"layoutAlignment" "AlignNone"
+"" ""
+"vision/VarTrend/VarTrendView.pnl" 189.5000000000014 108.5 T 5 0.6677091477717251 0 1.284671532846675 -126.5308835027428 -139.3868613138642
+4
+"$TrendWaitForGlobal""abcdef"
+"$_BOOL_HideControls""TRUE"
+"$_INT_TrendType"""
+"$_STRING_TrendName"""
+0

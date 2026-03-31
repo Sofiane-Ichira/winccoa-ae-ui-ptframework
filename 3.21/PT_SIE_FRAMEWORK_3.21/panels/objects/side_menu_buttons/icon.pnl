@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel version="14">
+ <properties>
+  <prop name="Name">
+   <prop name="en_US.utf8"></prop>
+   <prop name="de_AT.utf8"></prop>
+   <prop name="es_ES.utf8"></prop>
+   <prop name="fr_FR.utf8"></prop>
+   <prop name="tr_TR.utf8"></prop>
+   <prop name="zh_CN.utf8"></prop>
+  </prop>
+  <prop name="Size">61 53</prop>
+  <prop name="BackColor">_3DFace</prop>
+  <prop name="RefPoint">80 65</prop>
+  <prop name="InitAndTermRef">True</prop>
+  <prop name="SendClick">False</prop>
+  <prop name="RefFileName"></prop>
+  <prop name="DPI">96</prop>
+  <prop name="PDPI">108.888</prop>
+  <prop name="layoutType">HBox</prop>
+  <prop name="layoutLeftMargin">0</prop>
+  <prop name="layoutRightMargin">0</prop>
+  <prop name="layoutTopMargin">0</prop>
+  <prop name="layoutBottomMargin">0</prop>
+  <prop name="layoutSpacing">0</prop>
+  <prop name="connectorMargin">0</prop>
+ </properties>
+ <events>
+  <script isEscaped="1" name="ScopeLib"><![CDATA[public void SetSelBackCol(string color){
+  selSide.backCol(color);
+}
+
+public void SetUserText(string initials){
+  setValue(&quot;ptText&quot;, &quot;text&quot;, initials/*, &quot;visible&quot;, initials!=&quot;&quot;*/);
+  //selSide.visible(false);
+}
+
+public void SetIcon(string sIconFileName)
+{
+  if (sIconFileName != &quot;&quot;)
+  {
+    setMultiValue(//&quot;ptText&quot;, &quot;visible&quot;, false,
+                  &quot;rIcon&quot;, &quot;fill&quot;, &quot;[pattern,[fit,any,&quot; + sIconFileName + &quot;]]&quot;);
+  }
+}
+]]></script>
+ </events>
+ <shapes>
+  <shape Name="rIcon" layerId="0" shapeType="RECTANGLE">
+   <properties>
+    <prop name="serialId">15</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">10 0</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">_Transparent</prop>
+    <prop name="BackColor">{255,255,255}</prop>
+    <prop name="TabOrder">14</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+    </prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Expanding" vertical="Expanding"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="DashBackColor">_Transparent</prop>
+    <prop name="AntiAliased">False</prop>
+    <prop name="LineType">[solid,oneColor,JoinBevel,CapProjecting,1]</prop>
+    <prop name="BorderZoomable">False</prop>
+    <prop name="BorderScalable">False</prop>
+    <prop name="FillType">[outline]</prop>
+    <prop name="Geometry">2.499999999999999 0 0 1.666666666666667 -24.87499999999818 0.1637500000018193</prop>
+    <prop name="BorderStyle">Normal</prop>
+    <prop name="Location">10 0</prop>
+    <prop name="Size">21 31</prop>
+    <prop name="CornerRadius">0</prop>
+    <prop name="Transformable">True</prop>
+   </properties>
+  </shape>
+  <shape Name="ptText" layerId="0" shapeType="PRIMITIVE_TEXT">
+   <properties>
+    <prop name="serialId">16</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">10 10</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">color-std-text</prop>
+    <prop name="BackColor">_Window</prop>
+    <prop name="TabOrder">15</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+    </prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="MinimumExpanding" vertical="MinimumExpanding"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="DashBackColor">_Transparent</prop>
+    <prop name="AntiAliased">False</prop>
+    <prop name="LineType">[solid,oneColor,JoinBevel,CapProjecting,1]</prop>
+    <prop name="BorderZoomable">False</prop>
+    <prop name="BorderScalable">False</prop>
+    <prop name="FillType">[outline]</prop>
+    <prop name="Geometry">61.81415929203106 0 0 2.962966229972135 -623.1303064399331 -4.43174941297656</prop>
+    <prop name="Location">10 10</prop>
+    <prop name="Font">
+     <prop name="en_US.utf8">Noto Sans,-1,19,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular</prop>
+    </prop>
+    <prop name="Text">
+     <prop name="en_US.utf8"></prop>
+    </prop>
+    <prop name="Distance">2</prop>
+    <prop name="BorderOffset">2</prop>
+    <prop name="Bordered">False</prop>
+    <prop name="Fit">True</prop>
+    <prop name="Transformable">False</prop>
+    <prop name="TextFormat">[0s,,,AlignHCenter|AlignVCenter]</prop>
+   </properties>
+  </shape>
+  <shape Name="selSide" layerId="0" shapeType="RECTANGLE">
+   <properties>
+    <prop name="serialId">19</prop>
+    <prop name="Type"></prop>
+    <prop name="RefPoint">0.1250000000018119 0.1637500000018193</prop>
+    <prop name="Enable">True</prop>
+    <prop name="Visible">True</prop>
+    <prop name="ForeColor">_Transparent</prop>
+    <prop name="BackColor">_Transparent</prop>
+    <prop name="TabOrder">17</prop>
+    <prop name="ToolTipText">
+     <prop name="en_US.utf8"></prop>
+    </prop>
+    <prop name="maximumSize">7 -1</prop>
+    <prop name="sizePolicy">
+     <sizePolicy horizontal="Maximum" vertical="Preferred"/>
+    </prop>
+    <prop name="layoutAlignment">AlignNone</prop>
+    <prop name="snapMode">Point</prop>
+    <prop name="DashBackColor">_Transparent</prop>
+    <prop name="AntiAliased">False</prop>
+    <prop name="LineType">[solid,oneColor,JoinBevel,CapProjecting,1]</prop>
+    <prop name="BorderZoomable">False</prop>
+    <prop name="BorderScalable">False</prop>
+    <prop name="FillType">[solid]</prop>
+    <prop name="Geometry">3.885102239532829 0 0 212.0089412776453 0.05282375852067692 -0.1101811924880493</prop>
+    <prop name="BorderStyle">Normal</prop>
+    <prop name="Location">0.1250000000018119 0.1637500000018193</prop>
+    <prop name="Size">10.87499999999819 50.83624999999818</prop>
+    <prop name="CornerRadius">0</prop>
+    <prop name="Transformable">True</prop>
+   </properties>
+  </shape>
+ </shapes>
+ <groups>
+  <layout Name="LAYOUT_GROUP7" parentSerial="1" serial="0">
+   <properties>
+    <prop colSpan="1" column="1" name="shapeSerial" row="1" rowSpan="1">16</prop>
+    <prop colSpan="1" column="1" name="shapeSerial" row="1" rowSpan="1">15</prop>
+    <prop name="isContainerShape">False</prop>
+    <prop name="layoutType">Grid</prop>
+    <prop name="layoutLeftMargin">2</prop>
+    <prop name="layoutRightMargin">9</prop>
+    <prop name="layoutTopMargin">9</prop>
+    <prop name="layoutBottomMargin">9</prop>
+    <prop name="layoutSpacing">0</prop>
+   </properties>
+  </layout>
+  <layout Name="LAYOUT_GROUP12" parentSerial="-1" serial="1">
+   <properties>
+    <prop idx="0" name="shapeSerial">19</prop>
+    <prop idx="1" name="groupSerial">0</prop>
+    <prop name="isContainerShape">False</prop>
+    <prop name="layoutType">HBox</prop>
+    <prop name="layoutSpacing">0</prop>
+   </properties>
+  </layout>
+ </groups>
+</panel>
