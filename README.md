@@ -18,6 +18,7 @@ This clean integration of SCADA functions enhances maintainability and speeds up
 **Version:** 
 
 - WinCC OA 3.20 --> Patch 10 or higher
+- WinCC OA 3.21 --> Patch 0 or higher
 
 **Application Name:** WinCC OA Panel Topology Framework
 
@@ -69,10 +70,10 @@ For the HowTo of Implementation, Installation and Usage, please refer to the dat
 **The WinCC OA Panel Topology Framework** is your entry point to building clean, navigable, and operator-friendly SCADA interfaces. Its modularity and visual consistency make it ideal for fast engineering, efficient maintenance, and scalable use. 
 
 ## Content:
-This repository includes the project folders, documentation, and the legal information of the application example, organized as following:
+This repository includes the project folders, documentation, and the legal information of the application example for 3.21 and 3.20 WinCC OA versions, organized as following:
 - **PT_SIE_FRAMEWORK:** The Framework subproject
 - **WinCCOAFrameworkAppExample:** Predefined project for testing with WinCC OA
-- **WinCCOAFrameworkAppExample_V1.1.pdf:** HowTo of Implementation, Installation and Usage of the WinCC OA Panel Topology Framework
+- **WinCCOAFrameworkAppExample.pdf:** HowTo of Implementation, Installation and Usage of the WinCC OA Panel Topology Framework
 - **LEGAL_INFO.md:** Legal Information
 - **LICENSE.md:** License Information
 - **README.md:** this file
