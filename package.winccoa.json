@@ -11,16 +11,7 @@
   "Subprojects":[
     {
       "Name":"PT_SIE_FRAMEWORK",
-      "Description":"",
-      "Managers":[
-        
-      ],
-      "Dplists":[
-        
-      ],
-      "UpdateScripts":[
-        
-      ]
+      "Description":"Will be used inside the application example as a panel topology",
     }
   ]
 }
