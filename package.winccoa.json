@@ -11,7 +11,7 @@
   "Subprojects":[
     {
       "Name":"PT_SIE_FRAMEWORK",
-      "Description":"Will be used inside the application example as a panel topology",
+      "Description":"Will be used inside the application example as a panel topology"
     }
   ]
 }
