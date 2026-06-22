@@ -60,6 +60,9 @@ E "#uses \"aec.ctl\"
 ///////////////////////////////////
 
 mapping  g_mQueryReplies;
+mapping m_propConfigChange;
+mapping m_copyConfigChange;
+
 dyn_string g_dsSystems;
 bool g_bTableLineSynchronisation;
 unsigned g_uJumpingTimeout;
